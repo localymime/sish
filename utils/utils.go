@@ -5,7 +5,7 @@ package utils
 
 import (
 	"bytes"
-	"crypto/ed25519"
+	"crypto/rsa"
 	"crypto/rand"
 	"encoding/pem"
 	"fmt"
@@ -338,15 +338,15 @@ func GetSSHConfig() *ssh.ServerConfig {
 	return sshConfig
 }
 
-// generatePrivateKey creates a new ed25519 private key to be used by the
+// generatePrivateKey creates a new rsa private key to be used by the
 // the SSH server as the host key.
 func generatePrivateKey(passphrase string) []byte {
-	_, pk, err := ed25519.GenerateKey(rand.Reader)
+	_, pk, err := rsa.GenerateKey(rand.Reader)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println("Generated ED25519 Keypair")
+	log.Println("Generated rsa Keypair")
 
 	// In an effort to guarantee that keys can still be loaded by OpenSSH
 	// we adopt branching logic here for passphrase encrypted keys.
